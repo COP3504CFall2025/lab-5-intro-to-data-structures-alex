@@ -2,11 +2,19 @@
 #include <iostream>
 using namespace std;
 
+//  ________________________________________________________________
+// |                                                                |
+// |                      Linked List Class                         |
+// |________________________________________________________________|
 
 
 template <typename T>
 class LinkedList {
+
+// ================================================================
+
 private:
+
 struct Node {
     T data;
     Node* prev;
@@ -23,7 +31,17 @@ Node* head;
 Node* tail;
 unsigned int count;
 
+
+
+
+// ================================================================
+
 public:
+
+
+	// ================================================================
+
+	// CONSTRUCTOR AND DESTRUCTOR
 
 	// Constructor
     LinkedList() {
@@ -37,51 +55,129 @@ public:
 		Clear();
 	}
 
-	// Behaviors
+
+	// ================================================================
+
+	// PRINTERS
+
 	void printForward() const;
 	void printReverse() const;
 
-	// Accessors
-	[[nodiscard]] unsigned int getCount() const {return count;}
 
+	// ================================================================
+
+	// ACCESSORS
+
+	[[nodiscard]] unsigned int getCount() const {return count;}
 	Node* getHead() {return head;}
 	const Node* getHead() const {return head;}
 	Node* getTail() {return tail;}
 	const Node* getTail() const {return tail;}
 	
 
-	// Insertion
+	// ================================================================
+
+	// INSERTION
+
+	// Add new node to the head
 	void addHead(const T& data) {
 		Node* newNode = new Node(data);
-		head = newNode;
+
+		if (head == nullptr) { // If list is empty
+			head = newNode;
+			tail = newNode;
+		} else { // If there is one node (head = currentNode)
+			newNode->next = head; // newNode[next] --> currentNode
+			head->prev = newNode; // newNode <-- currentNode[prev]
+			head = newNode; // head = newNode
+		}
 		count++;
 	}
+
+	// Add new node to the tail
 	void addTail(const T& data) {
 		Node* newNode = new Node(data);
-		tail = newNode;
+
+		if (tail == nullptr) { // If list is empty
+			head = newNode;
+			tail = newNode;
+		} else { // If there is one node (tail = currentNode)
+			newNode->prev = head; // currentNode <-- newNode[prev]
+			tail->next = newNode; // currentNode[next] --> newNode
+			tail = newNode; // tail = newNode
+		}
 		count++;
 	}
 
-	// Removal
-	bool removeHead();
-	bool removeTail();
-	void Clear();
 
-	// Operators
-	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept;
-	LinkedList<T>& operator=(const LinkedList<T>& rhs);
+	// ================================================================
 
-	// Construction/Destruction
+	// REMOVAL
+
+	bool removeHead() {
+		if (head == nullptr) { // If list is empty
+			return false
+		} else {
+			Node* temp = head; // temp = oldHead
+			head = head->next; // oldHead[next] --> newHead
+			if (head) {
+				head->prev = nullptr; // oldHead <-- newHead[prev]
+			} 
+			delete temp; // null <-- newHead[prev]
+			count--;
+		}
+	}
+
+	bool removeTail() {
+		if (tail == nullptr) { // If list is empty
+			return false
+		} else {
+			Node* temp = tail; // temp = oldTail
+			tail = tail->prev; // newTail <-- oldTail[prev]
+			if (tail) {
+				tail->next = nullptr; // newTail[next] --> oldTail
+			} 
+			delete temp; // newTail[next] --> null
+			count--;
+		}
+	}
+
+	void Clear() {
+		while(head) {
+			Node* temp = head;
+			head = head->next;
+			if (head) {
+				head->prev = nullptr;
+			}
+			delete temp;
+			count--;
+		}
+		tail = nullptr;
+	}
+
+
+	// ================================================================
+
+	// THE BIG FIVE
+
+
+	// Constructor
 	LinkedList();
-	LinkedList(const LinkedList<T>& list);
-	LinkedList(LinkedList<T>&& other) noexcept;
+
+	// Destructor
 	~LinkedList();
 
-private:
-	// Stores pointers to first and last nodes and count
-	Node* head;
-	Node* tail;
-	unsigned int count;
+	// Copy constructor
+	LinkedList(const LinkedList<T>& list);
+
+	// Copy assignment operator
+	LinkedList<T>& operator=(const LinkedList<T>& rhs);
+
+	// Move constructor
+	LinkedList(LinkedList<T>&& other) noexcept;
+
+	// Move assignment operator
+	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept;
 
 };
 
