@@ -6,21 +6,61 @@ using namespace std;
 
 template <typename T>
 class LinkedList {
+private:
+struct Node {
+    T data;
+    Node* prev;
+    Node* next;
+
+	Node(const T& value) {
+		data = value;
+		prev = nullptr;
+		next = nullptr;
+	}
+};
+
+Node* head;
+Node* tail;
+unsigned int count;
+
 public:
+
+	// Constructor
+    LinkedList() {
+        head = nullptr;
+        tail = nullptr;
+        count = 0;
+    }
+
+	// Destructor
+	~LinkedList() {
+		Clear();
+	}
+
 	// Behaviors
 	void printForward() const;
 	void printReverse() const;
 
 	// Accessors
-	[[nodiscard]] unsigned int getCount() const;
-	Node* getHead();
-	const Node* getHead() const;
-	Node* getTail();
-	const Node* getTail() const;
+	[[nodiscard]] unsigned int getCount() const {return count;}
+
+	Node* getHead() {return head;}
+	const Node* getHead() const {return head;}
+	Node* getTail() {return tail;}
+	const Node* getTail() const {return tail;}
+	
 
 	// Insertion
-	void addHead(const T& data);
-	void addTail(const T& data);
+	void addHead(const T& data) {
+		Node* newNode = new Node(data);
+		head = newNode;
+		count++;
+	}
+	void addTail(const T& data) {
+		Node* newNode = new Node(data);
+		tail = newNode;
+		count++;
+	}
 
 	// Removal
 	bool removeHead();
