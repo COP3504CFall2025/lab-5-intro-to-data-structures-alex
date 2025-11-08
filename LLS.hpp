@@ -40,13 +40,13 @@ public:
     }
 
     // Move Constructor
-    LLS(LLS& other) {
+    LLS(LLS&& other) noexcept {
         list = other.list;
         other.list.clear();
     }
 
     // Move Assignment Operator
-    LLS& operator=(const LLS&& other) {
+    LLS& operator=(LLS&& other) noexcept {
         if (this == &other) return *this;
         list = other.list;
         other.list.clear();
@@ -70,7 +70,7 @@ public:
     // Deletion
     T pop() override {
         if (list.getCount() == 0) throw std::runtime_error("List is empty.");
-        T headNode = list.getHead();
+        T headNode = list.getHead()->data;
         list.removeHead();
         return headNode;
     }
