@@ -159,6 +159,17 @@ public:
         if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
         T item = array_[curr_size_ - 1];
         curr_size_--;
+
+        if (curr_size_ <= capacity_ / 2) {
+            capacity_ /= 2;
+            T* newArray = new T[capacity_];
+            for (size_t i = 0; i < curr_size_; i++) {
+                newArray[i] = array_[i];
+            }
+            delete[] array_;
+            array_ = newArray;
+        }
+
         return item;
     }
 };
