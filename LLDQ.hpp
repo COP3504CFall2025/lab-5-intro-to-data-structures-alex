@@ -65,8 +65,18 @@ public:
     void pushBack(const T& item) override { list.addTail(item); }
 
     // Core Removal Operations
-    T popFront() override { list.removeHead(); }
-    T popBack() override { list.removeTail(); }
+    T popFront() override {
+        if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
+        T headNode = list.getHead()->data;
+        list.removeHead();
+        return headNode;
+    }
+    T popBack() override { 
+        if(list.getTail() == nullptr) throw std::runtime_error("List is empty.");
+        T tailNode = list.getTail()->data;
+        list.removeTail();
+        return tailNode;
+    }
 
     // ================================================================
 	//  ________________________________
