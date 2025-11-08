@@ -66,9 +66,9 @@ public:
 
 	// Copy assignment operator
 	LinkedList<T>& operator=(const LinkedList<T>& rhs) {
-		if (this == rhs) return *this;
+		if (this == &rhs) return *this;
 
-		Clear();
+		clear();
 
 		Node* current = rhs.head;
 		while(current != nullptr) {
@@ -94,7 +94,7 @@ public:
 	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept {
 		if (this == &other) return *this;
 
-		Clear();
+		clear();
 
 		head = other.head;
 		tail = other.tail;
@@ -109,7 +109,7 @@ public:
 
 	// Destructor
 	~LinkedList() {
-		Clear();
+		clear();
 	}
 
 
@@ -216,7 +216,7 @@ public:
 		}
 	}
 
-	void Clear() {
+	void clear() {
 		while(head) {
 			Node* temp = head;
 			head = head->next;
@@ -227,6 +227,7 @@ public:
 		tail = nullptr;
 		count = 0;
 	}
+
 };
 
 
