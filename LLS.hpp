@@ -88,7 +88,5 @@ public:
     }
 
     // Get Size
-    std::size_t getSize() const noexcept override {
-        return list.getCount();
-    }
+    std::size_t getSize() const noexcept override { return list.getCount(); }
 };

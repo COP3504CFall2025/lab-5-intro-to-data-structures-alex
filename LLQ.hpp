@@ -41,15 +41,27 @@ public:
 
     // Move Constructor
     LLQ(LLQ&& other) noexcept {
-        list = other.list;
-        other.list.clear();
+        list.head = other.list.head;
+        list.tail = other.list.tail;
+        list.count = other.list.count;
+
+        other.list.head = nullptr
+        other.list.tail = nullptr;
+        other.list.count = 0;
     }
 
     // Move Assignment Operator
     LLQ& operator=(LLQ&& other) noexcept {
         if (this == &other) return *this;
-        list = other.list;
-        other.list.clear();
+
+        list.head = other.list.head;
+        list.tail = other.list.tail;
+        list.count = other.list.count;
+
+        other.list.head = nullptr
+        other.list.tail = nullptr;
+        other.list.count = 0;
+        
         return *this;
     }
 
@@ -67,13 +79,17 @@ public:
 
     // Deletion
     T dequeue() override {
+        if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
         T headNode = list.getHead()->data;
         list.removeHead();
         return headNode;
     }
 
     // Access
-    T peek() const override { return list.getHead()->data; }
+    T peek() const override { 
+        if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
+        return list.getHead()->data; 
+    }
 
     // Getter
     std::size_t getSize() const noexcept override { return list.getCount(); }
