@@ -10,6 +10,30 @@ using namespace std;
 template <typename T>
 class LinkedList {
 
+private:
+
+	// ================================================================
+	//  ________________________________
+	// |                                |
+	// |           Attributes           |
+	// |________________________________|
+
+	struct Node {
+		T data;
+		Node* prev;
+		Node* next;
+
+		Node(const T& value) {
+			data = value;
+			prev = nullptr;
+			next = nullptr;
+		}
+	};
+
+	Node* head;
+	Node* tail;
+	unsigned int count;
+	
 public:
 
 	// Constructor
@@ -223,29 +247,4 @@ public:
 		tail = nullptr;
 		count = 0;
 	}
-
-private:
-
-	// ================================================================
-	//  ________________________________
-	// |                                |
-	// |           Attributes           |
-	// |________________________________|
-
-	struct Node {
-		T data;
-		Node* prev;
-		Node* next;
-
-		Node(const T& value) {
-			data = value;
-			prev = nullptr;
-			next = nullptr;
-		}
-	};
-
-	Node* head;
-	Node* tail;
-	unsigned int count;
-
 };

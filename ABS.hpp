@@ -2,16 +2,29 @@
 #include <cstddef>
 #include <stdexcept>
 #include "Interfaces.hpp"
+using std::size_t; // Technically bad, but size_t isn't likely to conflict with any client code.
 
 //  ________________________________________________________________
 // |                                                                |
 // |                       Array-Based Stack                        |
 // |________________________________________________________________|
 
-using std::size_t; // Technically bad, but size_t isn't likely to conflict with any client code.
-
 template<typename T>
 class ABS : public StackInterface<T> {
+
+private:
+
+    // ================================================================
+    //  ________________________________
+    // |                                |
+    // |           Attributes           |
+    // |________________________________|
+
+    size_t capacity_;
+    size_t curr_size_;
+    T* array_;
+    static constexpr size_t scale_factor_ = 2;
+
 public:
 
 	// ================================================================
@@ -20,12 +33,14 @@ public:
 	// |          Constructors          |
 	// |________________________________|
 
+    // Default Constructor
     ABS() {
         capacity_ = 1;
         curr_size_ = 0;
         array_ = new T[capacity_];
     }
 
+    // Parameterized Constructor
     explicit ABS(const size_t capacity) {
         capacity_ = capacity;
         curr_size_ = 0;
@@ -38,6 +53,7 @@ public:
 	// |          The Big Five          |
 	// |________________________________|
 
+    // Copy Constructor
     ABS(const ABS& other) {
         capacity_ = other.capacity_;
         curr_size_ = other.curr_size_;
@@ -48,6 +64,7 @@ public:
         }
     }
 
+    // Copy Assignment Operator
     ABS& operator=(const ABS& rhs) {
         if (this == &rhs) return *this;
 
@@ -60,6 +77,7 @@ public:
         return *this;
     }
 
+    // Move Constructor
     ABS(ABS&& other) noexcept {
         capacity_ = other.capacity_;
         curr_size_ = other.curr_size_;
@@ -70,6 +88,7 @@ public:
 		other.curr_size_ = 0;
     }
 
+    // Move Assignment Operator
     ABS& operator=(ABS&& rhs) noexcept {
         if (this == &rhs) return *this;
 
@@ -86,6 +105,7 @@ public:
         return *this
     }
 
+    // Destructor
     ~ABS() noexcept override {
         delete[] array_;
         capacity_ = 0;
@@ -127,28 +147,17 @@ public:
         curr_size_++;
     }
 
+    // Returns top element
     T peek() const override {
         if (curr_size_ == 0) throw std::out_of_range("Array is empty.");
         return array_[curr_size_ - 1];
     }
 
+    // Removes the last inserted element
     T pop() override {
         if (curr_size_ == 0) throw std::out_of_range("Array is empty.");
         T item = array_[curr_size_ - 1];
         curr_size_--;
         return item;
     }
-
-private:
-
-    // ================================================================
-    //  ________________________________
-    // |                                |
-    // |           Attributes           |
-    // |________________________________|
-
-    size_t capacity_;
-    size_t curr_size_;
-    T* array_;
-    static constexpr size_t scale_factor_ = 2;
 };
