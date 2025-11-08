@@ -196,7 +196,11 @@ public:
 		} else {
 			Node* temp = head;
 			head = head->next;
-			if (head) head->prev = nullptr;
+			if (head) {
+				head->prev = nullptr;
+			} else {
+				tail = nullptr;
+			}
 			delete temp;
 			count--;
 			return true;
@@ -209,7 +213,11 @@ public:
 		} else {
 			Node* temp = tail;
 			tail = tail->prev;
-			if (tail) tail->next = nullptr;
+			if (tail) {
+				tail->next = nullptr;
+			} else {
+				head = nullptr;
+			}
 			delete temp;
 			count--;
 			return true;
