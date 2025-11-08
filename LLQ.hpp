@@ -41,10 +41,10 @@ public:
 
     // Move Constructor
     LLQ(LLQ&& other) noexcept {
-        list.head = other.list.head;
-        list.tail = other.list.tail;
-        list.count = other.list.count;
-
+        list.head = other.list.getHead();
+        list.tail = other.list.getTail();
+        list.count = other.list.getCount();
+        
         other.list.head = nullptr
         other.list.tail = nullptr;
         other.list.count = 0;
@@ -54,9 +54,9 @@ public:
     LLQ& operator=(LLQ&& other) noexcept {
         if (this == &other) return *this;
 
-        list.head = other.list.head;
-        list.tail = other.list.tail;
-        list.count = other.list.count;
+        list.head = other.list.getHead();
+        list.tail = other.list.getTail();
+        list.count = other.list.getCount();
 
         other.list.head = nullptr
         other.list.tail = nullptr;
