@@ -2,44 +2,18 @@
 #include <iostream>
 using namespace std;
 
-// ================================================================
 //  ________________________________________________________________
 // |                                                                |
-// |                      Linked List Class                         |
+// |                         Linked List                            |
 // |________________________________________________________________|
-
 
 template <typename T>
 class LinkedList {
 
-private:
-
-//  ________________________________
-// |                                |
-// |           Attributes           |
-// |________________________________|
-
-struct Node {
-    T data;
-    Node* prev;
-    Node* next;
-
-	Node(const T& value) {
-		data = value;
-		prev = nullptr;
-		next = nullptr;
-	}
-};
-
-Node* head;
-Node* tail;
-unsigned int count;
-
-
 public:
 
 	// Constructor
-    LinkedList() {
+    LinkedList() : {
         head = nullptr;
         tail = nullptr;
         count = 0;
@@ -51,7 +25,7 @@ public:
 	// |          The Big Five          |
 	// |________________________________|
 
-	// Copy constructor
+	// Copy Constructor
 	LinkedList(const LinkedList<T>& list) {
 		head = nullptr;
 		tail = nullptr;
@@ -64,7 +38,7 @@ public:
 		}
 	}
 
-	// Copy assignment operator
+	// Copy Assignment Operator
 	LinkedList<T>& operator=(const LinkedList<T>& rhs) {
 		if (this == &rhs) return *this;
 
@@ -79,7 +53,7 @@ public:
 		return *this;
 	}
 
-	// Move constructor
+	// Move Constructor
 	LinkedList(LinkedList<T>&& other) noexcept {
 		head = other.head;
 		tail = other.tail;
@@ -90,7 +64,7 @@ public:
 		other.count = 0;
 	}
 
-	// Move assignment operator
+	// Move Assignment Operator
 	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept {
 		if (this == &other) return *this;
 
@@ -112,6 +86,22 @@ public:
 		clear();
 	}
 
+	// ================================================================
+	//  ________________________________
+	// |                                |
+	// |           Accessors            |
+	// |________________________________|
+
+	// Returns the number of nodes
+	[[nodiscard]] unsigned int getCount() const {return count;}
+
+	// Returns a pointer to the head node
+	Node* getHead() {return head;}
+	const Node* getHead() const {return head;}
+
+	// Returns a pointer to the tail node
+	Node* getTail() {return tail;}
+	const Node* getTail() const {return tail;}
 
 	// ================================================================
 	//  ________________________________
@@ -119,6 +109,7 @@ public:
 	// |            Printers            |
 	// |________________________________|
 
+	// Prints all nodes starting from the head
     void printForward() const {
         Node* current = head;
         while (current != nullptr) {
@@ -130,6 +121,7 @@ public:
         cout << endl;
     }
 
+	// Prints all nodes starting from the tail
     void printReverse() const {
         Node* current = tail;
         while (current != nullptr) {
@@ -141,27 +133,13 @@ public:
         cout << endl;
     }
 
-
 	// ================================================================
 	//  ________________________________
 	// |                                |
-	// |           Accessors            |
+	// |           Inserters            |
 	// |________________________________|
 
-	[[nodiscard]] unsigned int getCount() const {return count;}
-	Node* getHead() {return head;}
-	const Node* getHead() const {return head;}
-	Node* getTail() {return tail;}
-	const Node* getTail() const {return tail;}
-
-
-	// ================================================================
-	//  ________________________________
-	// |                                |
-	// |          Adding Nodes          |
-	// |________________________________|
-
-	// Add new node to the head
+	// Inserts a new node at the beginning
 	void addHead(const T& data) {
 		Node* newNode = new Node(data);
 
@@ -176,7 +154,7 @@ public:
 		count++;
 	}
 
-	// Add new node to the tail
+	// Inserts a new node at the end
 	void addTail(const T& data) {
 		Node* newNode = new Node(data);
 
@@ -191,13 +169,13 @@ public:
 		count++;
 	}
 
-
 	// ================================================================
 	//  ________________________________
 	// |                                |
-	// |         Removing Nodes         |
+	// |            Removers            |
 	// |________________________________|
 
+	// Removes the first node
 	bool removeHead() {
 		if (head == nullptr) { // If list is empty
 			return false;
@@ -215,6 +193,7 @@ public:
 		}
 	}
 
+	// Removes the last node
 	bool removeTail() {
 		if (tail == nullptr) { // If list is empty
 			return false;
@@ -232,6 +211,7 @@ public:
 		}
 	}
 
+	// Deletes all nodes
 	void clear() {
 		while(head) {
 			Node* temp = head;
@@ -244,6 +224,28 @@ public:
 		count = 0;
 	}
 
+private:
+
+	// ================================================================
+	//  ________________________________
+	// |                                |
+	// |           Attributes           |
+	// |________________________________|
+
+	struct Node {
+		T data;
+		Node* prev;
+		Node* next;
+
+		Node(const T& value) {
+			data = value;
+			prev = nullptr;
+			next = nullptr;
+		}
+	};
+
+	Node* head;
+	Node* tail;
+	unsigned int count;
+
 };
-
-

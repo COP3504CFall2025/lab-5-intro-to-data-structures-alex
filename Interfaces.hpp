@@ -2,15 +2,12 @@
 #include <cstddef>
 #include <stdexcept>
 
-// ================================================================
 //  ________________________________________________________________
 // |                                                                |
 // |                      Interface Classes                         |
 // |________________________________________________________________|
 
-
-// Stack Interface
-// Defines standard LIFO (Last-In-First-Out) operations:
+// Stack Interface: Defines standard LIFO (Last-In-First-Out) operations
 template <typename T>
 class StackInterface {
     virtual ~StackInterface() = default;
@@ -20,9 +17,7 @@ class StackInterface {
     virtual std::size_t getSize() const noexcept = 0;
 };
 
-
-// Queue Interface
-// Defines standard FIFO (First-In-First-Out) operations:
+// Queue Interface: Defines standard FIFO (First-In-First-Out) operations
 template <typename T>
 class QueueInterface {
     virtual ~QueueInterface() = default;
@@ -32,9 +27,7 @@ class QueueInterface {
     virtual std::size_t getSize() const noexcept = 0;
 };
 
-
-// Deque Interface
-// Defines double-ended sequential access operations:
+// Deque Interface: Defines double-ended sequential access operations
 template <typename T>
 class DequeInterface {
     virtual ~DequeInterface() = default;
@@ -45,5 +38,4 @@ class DequeInterface {
     virtual const T& front() const = 0;
     virtual const T& back() const = 0;
     virtual std::size_t getSize() const noexcept = 0;
-    };
-
+};
