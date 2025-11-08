@@ -142,6 +142,7 @@ public:
                 newArray[i] = array_[i];
             }
             delete[] array_;
+            array_ = newArray;
         }
         array_[curr_size_] = data;
         curr_size_++;
