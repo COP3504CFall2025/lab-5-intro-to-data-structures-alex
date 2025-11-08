@@ -164,7 +164,7 @@ public:
         }
 
         T* newArray = new T[capacity_];
-        for (size_t i = 0; i < curr_size_ - 1; i++) {
+        for (size_t i = 0; i < curr_size_; i++) {
             newArray[i] = array_[i + 1];
         }
         delete[] array_;
