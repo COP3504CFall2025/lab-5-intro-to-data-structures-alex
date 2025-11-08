@@ -160,7 +160,7 @@ public:
         T item = array_[curr_size_ - 1];
         curr_size_--;
 
-        if (curr_size_ <= capacity_ / 2) {
+        if (curr_size_ < capacity_ / 2) {
             capacity_ /= 2;
             T* newArray = new T[capacity_];
             for (size_t i = 0; i < curr_size_; i++) {
