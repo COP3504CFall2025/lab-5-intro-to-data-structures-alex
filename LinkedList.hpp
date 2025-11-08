@@ -116,15 +116,15 @@ public:
 	// |________________________________|
 
 	// Returns the number of nodes
-	[[nodiscard]] unsigned int getCount() const {return count;}
+	[[nodiscard]] unsigned int getCount() const { return count; }
 
 	// Returns a pointer to the head node
 	Node* getHead() {return head;}
-	const Node* getHead() const {return head;}
+	const Node* getHead() const { return head; }
 
 	// Returns a pointer to the tail node
 	Node* getTail() {return tail;}
-	const Node* getTail() const {return tail;}
+	const Node* getTail() const { return tail; }
 
 	// ================================================================
 	//  ________________________________

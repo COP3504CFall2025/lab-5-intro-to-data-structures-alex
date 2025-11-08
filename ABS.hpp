@@ -118,13 +118,13 @@ public:
 	// |________________________________|
 
     // Returns the number of items in the ABS
-    [[nodiscard]] size_t getSize() const noexcept override {return curr_size_;}
+    [[nodiscard]] size_t getSize() const noexcept override { return curr_size_; }
 
     // Returns the max size of the ABS
-    [[nodiscard]] size_t getMaxCapacity() const noexcept {return capacity_;}
+    [[nodiscard]] size_t getMaxCapacity() const noexcept { return capacity_; }
 
     // Returns underlying data for the stack
-    [[nodiscard]] T* getData() const noexcept {return array_;}
+    [[nodiscard]] T* getData() const noexcept { return array_; }
 
     // ================================================================
 	//  ________________________________

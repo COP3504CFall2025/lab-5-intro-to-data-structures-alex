@@ -14,11 +14,6 @@ class ABQ : public QueueInterface<T>{
 
 private:
 
-    //  ________________________________
-    // |                                |
-    // |           Attributes           |
-    // |________________________________|
-
     size_t capacity_;
     size_t curr_size_;
     T* array_;
@@ -118,13 +113,13 @@ public:
 	// |________________________________|
 
     // Returns the number of items in the ABQ
-    [[nodiscard]] size_t getSize() const noexcept override {return curr_size_;}
+    [[nodiscard]] size_t getSize() const noexcept override { return curr_size_; }
 
     // Returns the max size of the ABQ
-    [[nodiscard]] size_t getMaxCapacity() const noexcept {return capacity_;}
+    [[nodiscard]] size_t getMaxCapacity() const noexcept { return capacity_; }
 
     // Returns underlying data for the queue
-    [[nodiscard]] T* getData() const noexcept {return array_;}
+    [[nodiscard]] T* getData() const noexcept { return array_; }
 
     // ================================================================
 	//  ________________________________

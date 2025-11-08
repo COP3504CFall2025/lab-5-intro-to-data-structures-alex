@@ -1,16 +1,20 @@
 #pragma once
-
 #include <cstddef>
 #include <stdexcept>
 #include "Interfaces.hpp"
 #include "LinkedList.hpp"
 #include <utility>
 
-
+//  ________________________________________________________________
+// |                                                                |
+// |                       Linked-List Deque                        |
+// |________________________________________________________________|
 
 template <typename T>
 class LLDQ : public DequeInterface<T> {
+    
 private:
+
     LinkedList<T> list;
 
 public:
