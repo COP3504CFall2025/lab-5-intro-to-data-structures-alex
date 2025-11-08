@@ -135,7 +135,7 @@ public:
 
     // Pushes item onto the stack
     void push(const T& data) override {
-        if (capacity_ == curr_size_) {
+        if (curr_size_ == capacity_) {
             capacity_ *= scale_factor_;
             T* newArray = new T[capacity_];
             for (size_t i = 0; i < curr_size_; i++) {
@@ -150,13 +150,13 @@ public:
 
     // Returns top element
     T peek() const override {
-        if (curr_size_ == 0) throw std::out_of_range("Array is empty.");
+        if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
         return array_[curr_size_ - 1];
     }
 
     // Removes the last inserted element
     T pop() override {
-        if (curr_size_ == 0) throw std::out_of_range("Array is empty.");
+        if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
         T item = array_[curr_size_ - 1];
         curr_size_--;
         return item;
