@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 
+
+
 //  ________________________________________________________________
 // |                                                                |
 // |                      Linked List Class                         |
@@ -38,17 +40,72 @@ unsigned int count;
 
 public:
 
-
-	// ================================================================
-
-	// CONSTRUCTOR AND DESTRUCTOR
-
 	// Constructor
     LinkedList() {
         head = nullptr;
         tail = nullptr;
         count = 0;
     }
+
+	// ================================================================
+
+	// THE BIG FIVE
+
+	// Copy constructor
+	LinkedList(const LinkedList<T>& list) {
+		head = nullptr;
+		tail = nullptr;
+		count = 0;
+
+		Node* current = list.head;
+		while(current != nullptr) {
+			addTail(current->data);
+			current = current->next;
+		}
+	}
+
+	// Copy assignment operator
+	LinkedList<T>& operator=(const LinkedList<T>& rhs) {
+		if (this == rhs) return *this;
+
+		Clear();
+
+		Node* current = rhs.head;
+		while(current != nullptr) {
+			addTail(current->data);
+			current = current->next;
+		}
+
+		return *this;
+	}
+
+	// Move constructor
+	LinkedList(LinkedList<T>&& other) noexcept {
+		head = other.head;
+		tail = other.tail;
+		count = other.count;
+
+		other.head = nullptr;
+		other.tail = nullptr;
+		other.count = 0;
+	}
+
+	// Move assignment operator
+	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept {
+		if (this == &other) return *this;
+
+		Clear();
+
+		head = other.head;
+		tail = other.tail;
+		count = other.count;
+
+		other.head = nullptr;
+		other.tail = nullptr;
+		other.count = 0;
+
+		return *this;
+	}
 
 	// Destructor
 	~LinkedList() {
@@ -60,8 +117,27 @@ public:
 
 	// PRINTERS
 
-	void printForward() const;
-	void printReverse() const;
+    void printForward() const {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << current->data;
+            if (current->next != nullptr)
+                cout << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+    void printReverse() const {
+        Node* current = tail;
+        while (current != nullptr) {
+            cout << current->data;
+            if (current->prev != nullptr)
+                cout << " ";
+            current = current->prev;
+        }
+        cout << endl;
+    }
 
 
 	// ================================================================
@@ -73,11 +149,11 @@ public:
 	const Node* getHead() const {return head;}
 	Node* getTail() {return tail;}
 	const Node* getTail() const {return tail;}
-	
+
 
 	// ================================================================
 
-	// INSERTION
+	// ADDITION
 
 	// Add new node to the head
 	void addHead(const T& data) {
@@ -86,10 +162,10 @@ public:
 		if (head == nullptr) { // If list is empty
 			head = newNode;
 			tail = newNode;
-		} else { // If there is one node (head = currentNode)
-			newNode->next = head; // newNode[next] --> currentNode
-			head->prev = newNode; // newNode <-- currentNode[prev]
-			head = newNode; // head = newNode
+		} else { // If there is at least one node
+			newNode->next = head;
+			head->prev = newNode;
+			head = newNode;
 		}
 		count++;
 	}
@@ -101,10 +177,10 @@ public:
 		if (tail == nullptr) { // If list is empty
 			head = newNode;
 			tail = newNode;
-		} else { // If there is one node (tail = currentNode)
-			newNode->prev = head; // currentNode <-- newNode[prev]
-			tail->next = newNode; // currentNode[next] --> newNode
-			tail = newNode; // tail = newNode
+		} else { // If there is at least one node
+			newNode->prev = tail;
+			tail->next = newNode;
+			tail = newNode;
 		}
 		count++;
 	}
@@ -116,29 +192,27 @@ public:
 
 	bool removeHead() {
 		if (head == nullptr) { // If list is empty
-			return false
+			return false;
 		} else {
-			Node* temp = head; // temp = oldHead
-			head = head->next; // oldHead[next] --> newHead
-			if (head) {
-				head->prev = nullptr; // oldHead <-- newHead[prev]
-			} 
-			delete temp; // null <-- newHead[prev]
+			Node* temp = head;
+			head = head->next;
+			if (head) head->prev = nullptr;
+			delete temp;
 			count--;
+			return true;
 		}
 	}
 
 	bool removeTail() {
 		if (tail == nullptr) { // If list is empty
-			return false
+			return false;
 		} else {
-			Node* temp = tail; // temp = oldTail
-			tail = tail->prev; // newTail <-- oldTail[prev]
-			if (tail) {
-				tail->next = nullptr; // newTail[next] --> oldTail
-			} 
-			delete temp; // newTail[next] --> null
+			Node* temp = tail;
+			tail = tail->prev;
+			if (tail) tail->next = nullptr;
+			delete temp;
 			count--;
+			return true;
 		}
 	}
 
@@ -146,39 +220,13 @@ public:
 		while(head) {
 			Node* temp = head;
 			head = head->next;
-			if (head) {
-				head->prev = nullptr;
-			}
+			if (head) head->prev = nullptr;
 			delete temp;
 			count--;
 		}
 		tail = nullptr;
+		count = 0;
 	}
-
-
-	// ================================================================
-
-	// THE BIG FIVE
-
-
-	// Constructor
-	LinkedList();
-
-	// Destructor
-	~LinkedList();
-
-	// Copy constructor
-	LinkedList(const LinkedList<T>& list);
-
-	// Copy assignment operator
-	LinkedList<T>& operator=(const LinkedList<T>& rhs);
-
-	// Move constructor
-	LinkedList(LinkedList<T>&& other) noexcept;
-
-	// Move assignment operator
-	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept;
-
 };
 
 
