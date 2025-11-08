@@ -41,27 +41,13 @@ public:
 
     // Move Constructor
     LLQ(LLQ&& other) noexcept {
-        list.head = other.list.getHead();
-        list.tail = other.list.getTail();
-        list.count = other.list.getCount();
-        
-        other.list.head = nullptr
-        other.list.tail = nullptr;
-        other.list.count = 0;
+        list = std::move(other.list);
     }
 
     // Move Assignment Operator
     LLQ& operator=(LLQ&& other) noexcept {
         if (this == &other) return *this;
-
-        list.head = other.list.getHead();
-        list.tail = other.list.getTail();
-        list.count = other.list.getCount();
-
-        other.list.head = nullptr
-        other.list.tail = nullptr;
-        other.list.count = 0;
-        
+        list = std::move(other.list);
         return *this;
     }
 
