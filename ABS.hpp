@@ -102,7 +102,7 @@ public:
 		other.capacity_ = 0;
 		other.curr_size_ = 0;
 
-        return *this
+        return *this;
     }
 
     // Destructor

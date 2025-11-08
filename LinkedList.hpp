@@ -33,11 +33,11 @@ private:
 	Node* head;
 	Node* tail;
 	unsigned int count;
-	
+
 public:
 
 	// Constructor
-    LinkedList() : {
+    LinkedList() {
         head = nullptr;
         tail = nullptr;
         count = 0;
