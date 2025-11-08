@@ -237,13 +237,7 @@ public:
 	// Deletes all nodes
 	void clear() {
 		while(head) {
-			Node* temp = head;
-			head = head->next;
-			if (head) head->prev = nullptr;
-			delete temp;
-			count--;
+			removeHead();
 		}
-		tail = nullptr;
-		count = 0;
 	}
 };

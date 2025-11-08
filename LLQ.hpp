@@ -67,13 +67,13 @@ public:
 
     // Deletion
     T dequeue() override {
-        T headNode = list.getHead();
+        T headNode = list.getHead()->data;
         list.removeHead();
-        return headNode()->data;
+        return headNode;
     }
 
     // Access
-    T peek() const override { return list.getHead(); }
+    T peek() const override { return list.getHead()->data; }
 
     // Getter
     std::size_t getSize() const noexcept override { return list.getCount(); }
