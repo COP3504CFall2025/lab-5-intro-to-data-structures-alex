@@ -167,7 +167,7 @@ public:
         front_ = (front_ + 1) % capacity_;
         size_--;
 
-        if (size_ == capacity_ / SCALE_FACTOR) { shrinkIfNeeded(); }
+        if (size_ < capacity_ / SCALE_FACTOR) { shrinkIfNeeded(); }
 
         return item;
     }
@@ -179,7 +179,7 @@ public:
         back_ = (back_ == 0) ? capacity_ - 1 : back_ - 1;
         size_--;
 
-        if (size_ == capacity_ / SCALE_FACTOR) { shrinkIfNeeded(); }
+        if (size_ < capacity_ / SCALE_FACTOR) { shrinkIfNeeded(); }
 
         return item;
     }

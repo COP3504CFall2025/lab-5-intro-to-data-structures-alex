@@ -156,9 +156,7 @@ public:
         T item = array_[0];
         curr_size_--;
 
-        if (curr_size_ < capacity_ / scale_factor_) {
-            capacity_ /= scale_factor_;
-        }
+        if (curr_size_ < capacity_ / scale_factor_) capacity_ /= scale_factor_;
 
         T* newArray = new T[capacity_];
         for (size_t i = 0; i < curr_size_; i++) {
