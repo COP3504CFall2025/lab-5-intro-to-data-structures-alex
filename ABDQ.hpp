@@ -69,7 +69,7 @@ public:
         data_ = new T[other.capacity_];
 
         for (size_t i = 0; i < other.size_; i++) {
-            data_[i] = other.data_[i];
+            data_[i] = other.data_[(other.front_ + i) % other.capacity_];
         }
     }
 
@@ -86,7 +86,7 @@ public:
         data_ = new T[other.capacity_];
 
         for (size_t i = 0; i < other.size_; i++) {
-            data_[i] = other.data_[i];
+            data_[i] = other.data_[(other.front_ + i) % other.capacity_];
         }
 
         return *this;
