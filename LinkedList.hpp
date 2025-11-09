@@ -137,8 +137,7 @@ public:
         Node* current = head;
         while (current != nullptr) {
             cout << current->data;
-            if (current->next != nullptr)
-                cout << " ";
+            if (current->next != nullptr) cout << " ";
             current = current->next;
         }
         cout << endl;
@@ -149,8 +148,7 @@ public:
         Node* current = tail;
         while (current != nullptr) {
             cout << current->data;
-            if (current->prev != nullptr)
-                cout << " ";
+            if (current->prev != nullptr) cout << " ";
             current = current->prev;
         }
         cout << endl;

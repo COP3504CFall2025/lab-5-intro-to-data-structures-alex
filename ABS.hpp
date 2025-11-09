@@ -1,8 +1,10 @@
 #pragma once
 #include <cstddef>
 #include <stdexcept>
+#include <iostream>
 #include "Interfaces.hpp"
 using std::size_t; // Technically bad, but size_t isn't likely to conflict with any client code.
+using namespace std;
 
 //  ________________________________________________________________
 // |                                                                |
@@ -170,5 +172,31 @@ public:
         }
 
         return item;
+    }
+
+    // ================================================================
+	//  ________________________________
+	// |                                |
+	// |            Printers            |
+	// |________________________________|
+
+    // Print Forward
+    void PrintForward() { 
+        for (size_t i = 0; i < curr_size_; i++) {
+            cout << array_[i] << " ";
+        }
+        cout << endl;
+    }
+
+    // Print Reverse
+    void PrintReverse() {
+        if (curr_size_ == 0) {
+            cout << " " << endl;
+        } else {
+            for (int i = static_cast<int>(curr_size_) - 1; i >= 0; i--) {
+                cout << array_[i] << " ";
+            }
+            cout << endl;
+        }
     }
 };

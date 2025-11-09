@@ -97,6 +97,18 @@ public:
 
     // Getter
     std::size_t getSize() const noexcept override { return list.getCount(); }
+
+    // ================================================================
+	//  ________________________________
+	// |                                |
+	// |            Printers            |
+	// |________________________________|
+
+    // Print Forward
+    void PrintForward() { list.printForward(); }
+
+    // Print Reverse
+    void PrintReverse() { list.printReverse(); }
 };
 
 
