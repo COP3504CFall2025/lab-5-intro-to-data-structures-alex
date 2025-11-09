@@ -147,15 +147,19 @@ public:
     // Insertion
     void pushFront(const T& item) override {
         if (size_ == capacity_) { ensureCapacity(); }
-        front_ = (front_ == 0) ? capacity_ - 1 : front_ - 1;
+        if (size_ != 0) {
+            front_ = (front_ == 0) ? capacity_ - 1 : front_ - 1;
+        } else {
+            back_ = (front_ + 1) % capacity_;
+        }
         data_[front_] = item;
         size_++;
     }
 
     void pushBack(const T& item) override {
         if (size_ == capacity_) { ensureCapacity(); }
-        back_ = (back_ + 1) % capacity_;
         data_[back_] = item;
+        back_ = (back_ + 1) % capacity_;
         size_++;
     }
 
@@ -174,9 +178,8 @@ public:
 
     T popBack() override {
         if (size_ == 0) throw std::runtime_error("Array is empty.");
-        T item = data_[back_];
-
         back_ = (back_ == 0) ? capacity_ - 1 : back_ - 1;
+        T item = data_[back_];
         size_--;
 
         if (size_ < capacity_ / SCALE_FACTOR) { shrinkIfNeeded(); }
@@ -191,7 +194,7 @@ public:
     }
     const T& back() const override { 
         if (size_ == 0) throw std::runtime_error("Array is empty.");
-        return data_[back_]; 
+        return data_[(back_ == 0) ? capacity_ - 1 : back_ - 1]; 
     }
 
     // Getters
@@ -206,7 +209,7 @@ public:
         data_ = newData;
         capacity_ *= SCALE_FACTOR;
         front_ = 0;
-        back_ = size_ - 1;
+        back_ = size_;
     }
 
     void shrinkIfNeeded() {
@@ -218,7 +221,7 @@ public:
         data_ = newData;
         capacity_ /= SCALE_FACTOR;
         front_ = 0;
-        back_ = size_ - 1;
+        back_ = size_;
     }
 
     void PrintForward() {
