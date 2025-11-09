@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <stdexcept>
+#include <iostream>
 #include "Interfaces.hpp"
 #include <utility>
 using namespace std;
@@ -129,7 +130,7 @@ public:
 
     // Destructor
     ~ABDQ() override {
-        delete[] array_;
+        delete[] data_;
         capacity_ = 0;
 		size_ = 0;
         front_ = 0;
@@ -145,24 +146,42 @@ public:
 
     // Insertion
     void pushFront(const T& item) override {
-        if (size_ == capacity_) {
-            capacity_ *= SCALE_FACTOR;
-            T* newData = new T[capacity_];
-            for (size_t i = 0; i < size_; i++) {
-                newData[i] = data_[i];
-            }
-            delete[] data_;
-            data_ = newData;
-        }
-        data_[(front_ + 1) % capacity_] = item;
+        if (size_ == capacity_) { ensureCapacity(); }
+        front_ = (front_ == 0) ? capacity_ - 1 : front_ - 1;
+        data_[front_] = item;
         size_++;
     }
 
-    void pushBack(const T& item) override;
+    void pushBack(const T& item) override {
+        if (size_ == capacity_) { ensureCapacity(); }
+        data_[(back_ + 1) % capacity_] = item;
+        size_++;
+    }
 
     // Deletion
-    T popFront() override;
-    T popBack() override;
+    T popFront() override {
+        if (size_ == 0) throw std::runtime_error("Array is empty.");
+        T item = data_[front_];
+
+        front_ = (front_ + 1) % capacity_;
+        size_--;
+
+        if (size_ == capacity_ / 2) { shrinkIfNeeded(); }
+
+        return item;
+    }
+
+    T popBack() override {
+        if (size_ == 0) throw std::runtime_error("Array is empty.");
+        T item = data_[back_];
+
+        back_ = (back_ == 0) ? capacity_ - 1 : back_ - 1;
+        size_--;
+
+        if (size_ == capacity_ / 2) { shrinkIfNeeded(); }
+
+        return item;
+    }
 
     // Access
     const T& front() const override { 
@@ -177,9 +196,42 @@ public:
     // Getters
     std::size_t getSize() const noexcept override { return size_; }
 
-    void ensureCapacity();
-    void shrinkIfNeeded();
-    void PrintForward();
-    void PrintReverse();
+    void ensureCapacity() {
+        T* newData = new T[capacity_ * SCALE_FACTOR];
+        for (size_t i = 0; i < size_; i++) {
+            newData[i] = data_[(front_ + i) % capacity_];
+        }
+        delete[] data_;
+        data_ = newData;
+        capacity_ *= SCALE_FACTOR;
+        front_ = 0;
+        back_ = size_ - 1;
+    }
+
+    void shrinkIfNeeded() {
+        T* newData = new T[capacity_ / SCALE_FACTOR];
+        for (size_t i = 0; i < size_; i++) {
+            newData[i] = data_[(front_ + i) % capacity_];
+        }
+        delete[] data_;
+        data_ = newData;
+        capacity_ /= SCALE_FACTOR;
+        front_ = 0;
+        back_ = size_ - 1;
+    }
+
+    void PrintForward() {
+        for (size_t i = 0; i < size_; i++) {
+            cout << data_[(front_ + i) % capacity_] << " ";
+        }
+        cout << endl;
+    }
+
+    void PrintReverse() {
+        for (size_t i = size_; i > 0; i++) {
+            cout << data_[(front_ + (i - 1)) % capacity_] << " ";
+        }
+        cout << endl;
+    }
 
 };

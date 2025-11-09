@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <stdexcept>
+#include <iostream>
 #include "Interfaces.hpp"
 using std::size_t; // Technically bad, but size_t isn't likely to conflict with any client code.
 using namespace std;
@@ -155,8 +156,8 @@ public:
         T item = array_[0];
         curr_size_--;
 
-        if (curr_size_ < capacity_ / 2) {
-            capacity_ /= 2;
+        if (curr_size_ < capacity_ / scale_factor_) {
+            capacity_ /= scale_factor_;
         }
 
         T* newArray = new T[capacity_];
@@ -185,13 +186,9 @@ public:
 
     // Print Reverse
     void PrintReverse() {
-        if (curr_size_ == 0) {
-            cout << " " << endl;
-        } else {
-            for (int i = static_cast<int>(curr_size_) - 1; i >= 0; i--) {
-                cout << array_[i] << " ";
-            }
-            cout << endl;
+        for (size_t i = curr_size_; i > 0; i--) {
+            cout << array_[i - 1] << " ";
         }
+        cout << endl;
     }
 };
