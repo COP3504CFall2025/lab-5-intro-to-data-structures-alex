@@ -62,12 +62,12 @@ public:
 	// |            Mutators            |
 	// |________________________________|
 
-    // Insertion
+    // Inserts an element on top
     void push(const T& item) override {
         list.addHead(item);
     }
 
-    // Deletion
+    // Deletes the element on top
     T pop() override {
         if (list.getCount() == 0) throw std::runtime_error("List is empty.");
         T headNode = list.getHead()->data;
@@ -81,13 +81,13 @@ public:
 	// |           Accessors            |
 	// |________________________________|
 
-    // Access
+    // Returns the head element's data
     T peek() const override {
         if (list.getCount() == 0) throw std::runtime_error("List is empty.");
         return list.getHead()->data;
     }
 
-    // Get Size
+    // Returns the size of the list
     std::size_t getSize() const noexcept override { return list.getCount(); }
 
     // ================================================================
@@ -96,9 +96,10 @@ public:
 	// |            Printers            |
 	// |________________________________|
 
-    // Print Forward
+    // Prints elements from top to bottom
     void PrintForward() { list.printForward(); }
 
-    // Print Reverse
+    // Prints elements from bottom to top
     void PrintReverse() { list.printReverse(); }
+    
 };

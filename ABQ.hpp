@@ -1,10 +1,10 @@
 #pragma once
 #include <cstddef>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 #include "Interfaces.hpp"
-using std::size_t; // Technically bad, but size_t isn't likely to conflict with any client code.
 using namespace std;
+using std::size_t; // Technically bad, but size_t isn't likely to conflict with any client code.
 
 //  ________________________________________________________________
 // |                                                                |
@@ -123,13 +123,19 @@ public:
     // Returns underlying data for the queue
     [[nodiscard]] T* getData() const noexcept { return array_; }
 
+    // Returns the element in the front
+    T peek() const override {
+        if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
+        return array_[0];
+    }
+
     // ================================================================
 	//  ________________________________
 	// |                                |
-	// |    Enqueue, Dequeue, Peek      |
+	// |            Mutators            |
 	// |________________________________|
 
-    // Adds element to the back
+    // Adds an element to the back
     void enqueue(const T& data) override {
         if (curr_size_ == capacity_) {
             capacity_ *= scale_factor_;
@@ -144,13 +150,7 @@ public:
         curr_size_++;
     }
 
-    // Returns element in the front
-    T peek() const override {
-        if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
-        return array_[0];
-    }
-
-    // Removes element in the front
+    // Deletes the element in the front
     T dequeue() override {
         if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
         T item = array_[0];
@@ -174,7 +174,7 @@ public:
 	// |            Printers            |
 	// |________________________________|
 
-    // Print Forward
+    // Prints elements from front to back
     void PrintForward() { 
         for (size_t i = 0; i < curr_size_; i++) {
             cout << array_[i] << " ";
@@ -182,11 +182,12 @@ public:
         cout << endl;
     }
 
-    // Print Reverse
+    // Prints elements from back to front
     void PrintReverse() {
         for (size_t i = curr_size_; i > 0; i--) {
             cout << array_[i - 1] << " ";
         }
         cout << endl;
     }
+    
 };

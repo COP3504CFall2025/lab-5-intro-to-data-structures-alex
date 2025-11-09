@@ -1,9 +1,9 @@
 #pragma once
 #include <cstddef>
-#include <stdexcept>
 #include <iostream>
-#include "Interfaces.hpp"
+#include <stdexcept>
 #include <utility>
+#include "Interfaces.hpp"
 using namespace std;
 
 //  ________________________________________________________________
@@ -15,11 +15,6 @@ template <typename T>
 class ABDQ : public DequeInterface<T> {
 
 private:
-
-	//  ________________________________
-	// |                                |
-	// |           Attributes           |
-	// |________________________________|
 
     T* data_;                 // underlying dynamic array
     std::size_t capacity_;    // total allocated capacity
@@ -141,10 +136,32 @@ public:
 
     //  ________________________________
 	// |                                |
-	// |            Methods             |
+	// |           Accessors            |
 	// |________________________________|
 
-    // Insertion
+    // Returns the element in the front
+    const T& front() const override { 
+        if (size_ == 0) throw std::runtime_error("Array is empty.");
+        return data_[front_]; 
+    }
+
+    // Returns the element in the back
+    const T& back() const override { 
+        if (size_ == 0) throw std::runtime_error("Array is empty.");
+        return data_[(back_ == 0) ? capacity_ - 1 : back_ - 1]; 
+    }
+
+    // Returns the size of the array
+    std::size_t getSize() const noexcept override { return size_; }
+
+    // ================================================================
+
+    //  ________________________________
+	// |                                |
+	// |            Mutators            |
+	// |________________________________|
+
+    // Inserts an element in the front
     void pushFront(const T& item) override {
         if (size_ == capacity_) { ensureCapacity(); }
         if (size_ != 0) {
@@ -156,6 +173,7 @@ public:
         size_++;
     }
 
+    // Inserts an element in the back
     void pushBack(const T& item) override {
         if (size_ == capacity_) { ensureCapacity(); }
         data_[back_] = item;
@@ -163,7 +181,7 @@ public:
         size_++;
     }
 
-    // Deletion
+    // Deletes the element in the front
     T popFront() override {
         if (size_ == 0) throw std::runtime_error("Array is empty.");
         T item = data_[front_];
@@ -176,6 +194,7 @@ public:
         return item;
     }
 
+    // Deletes the element in the back
     T popBack() override {
         if (size_ == 0) throw std::runtime_error("Array is empty.");
         back_ = (back_ == 0) ? capacity_ - 1 : back_ - 1;
@@ -187,19 +206,7 @@ public:
         return item;
     }
 
-    // Access
-    const T& front() const override { 
-        if (size_ == 0) throw std::runtime_error("Array is empty.");
-        return data_[front_]; 
-    }
-    const T& back() const override { 
-        if (size_ == 0) throw std::runtime_error("Array is empty.");
-        return data_[(back_ == 0) ? capacity_ - 1 : back_ - 1]; 
-    }
-
-    // Getters
-    std::size_t getSize() const noexcept override { return size_; }
-
+    // Doubles the array's capacity
     void ensureCapacity() {
         T* newData = new T[capacity_ * SCALE_FACTOR];
         for (size_t i = 0; i < size_; i++) {
@@ -212,6 +219,7 @@ public:
         back_ = size_;
     }
 
+    // Halves the array's capacity
     void shrinkIfNeeded() {
         T* newData = new T[capacity_ / SCALE_FACTOR];
         for (size_t i = 0; i < size_; i++) {
@@ -224,6 +232,13 @@ public:
         back_ = size_;
     }
 
+    // ================================================================
+	//  ________________________________
+	// |                                |
+	// |            Printers            |
+	// |________________________________|
+
+    // Prints elements from front to back
     void PrintForward() {
         for (size_t i = 0; i < size_; i++) {
             cout << data_[(front_ + i) % capacity_] << " ";
@@ -231,6 +246,7 @@ public:
         cout << endl;
     }
 
+    // Prints elements from back to front
     void PrintReverse() {
         for (size_t i = size_; i > 0; i++) {
             cout << data_[(front_ + (i - 1)) % capacity_] << " ";

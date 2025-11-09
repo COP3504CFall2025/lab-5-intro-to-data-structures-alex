@@ -57,13 +57,28 @@ public:
     // ================================================================
 	//  ________________________________
 	// |                                |
-	// |      Queue, Dequeue, Peek      |
+	// |           Accessors            |
 	// |________________________________|
 
-    // Insertion
+    // Returns the head element's data
+    T peek() const override { 
+        if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
+        return list.getHead()->data; 
+    }
+
+    // Returns the size of the list
+    std::size_t getSize() const noexcept override { return list.getCount(); }
+
+    // ================================================================
+	//  ________________________________
+	// |                                |
+	// |            Mutators            |
+	// |________________________________|
+
+    // Inserts an element in queue
     void enqueue(const T& item) override { list.addTail(item); }
 
-    // Deletion
+    // Deletes the last element in the queue
     T dequeue() override {
         if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
         T headNode = list.getHead()->data;
@@ -71,19 +86,16 @@ public:
         return headNode;
     }
 
-    // Access
-    T peek() const override { 
-        if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
-        return list.getHead()->data; 
-    }
+    // ================================================================
+	//  ________________________________
+	// |                                |
+	// |            Printers            |
+	// |________________________________|
 
-    // Getter
-    std::size_t getSize() const noexcept override { return list.getCount(); }
-
-    // Print Forward
+    // Prints elements from front to back
     void PrintForward() { list.printForward(); }
 
-    // Print Reverse
+    // Prints elements from back to front
     void PrintReverse() { list.printReverse(); }
 
 };

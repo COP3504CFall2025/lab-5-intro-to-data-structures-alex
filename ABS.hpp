@@ -1,10 +1,10 @@
 #pragma once
 #include <cstddef>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 #include "Interfaces.hpp"
-using std::size_t; // Technically bad, but size_t isn't likely to conflict with any client code.
 using namespace std;
+using std::size_t; // Technically bad, but size_t isn't likely to conflict with any client code.
 
 //  ________________________________________________________________
 // |                                                                |
@@ -15,11 +15,6 @@ template<typename T>
 class ABS : public StackInterface<T> {
 
 private:
-
-    //  ________________________________
-    // |                                |
-    // |           Attributes           |
-    // |________________________________|
 
     size_t capacity_;
     size_t curr_size_;
@@ -128,13 +123,19 @@ public:
     // Returns underlying data for the stack
     [[nodiscard]] T* getData() const noexcept { return array_; }
 
+    // Returns the top element
+    T peek() const override {
+        if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
+        return array_[curr_size_ - 1];
+    }
+
     // ================================================================
 	//  ________________________________
 	// |                                |
-	// |        Push, Peek, Pop         |
+	// |            Mutators            |
 	// |________________________________|
 
-    // Pushes item onto the stack
+    // Pushes an item onto the stack
     void push(const T& data) override {
         if (curr_size_ == capacity_) {
             capacity_ *= scale_factor_;
@@ -149,13 +150,7 @@ public:
         curr_size_++;
     }
 
-    // Returns top element
-    T peek() const override {
-        if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
-        return array_[curr_size_ - 1];
-    }
-
-    // Removes the last inserted element
+    // Deletes the last inserted element
     T pop() override {
         if (curr_size_ == 0) throw std::runtime_error("Array is empty.");
         T item = array_[curr_size_ - 1];
@@ -180,7 +175,7 @@ public:
 	// |            Printers            |
 	// |________________________________|
 
-    // Print Forward
+    // Prints elements from top to bottom
     void PrintForward() { 
         for (size_t i = 0; i < curr_size_; i++) {
             cout << array_[i] << " ";
@@ -188,7 +183,7 @@ public:
         cout << endl;
     }
 
-    // Print Reverse
+    // Prints elements from bottom to top
     void PrintReverse() {
         if (curr_size_ == 0) {
             cout << " " << endl;
@@ -199,4 +194,5 @@ public:
             cout << endl;
         }
     }
+    
 };

@@ -1,9 +1,9 @@
 #pragma once
 #include <cstddef>
 #include <stdexcept>
+#include <utility>
 #include "Interfaces.hpp"
 #include "LinkedList.hpp"
-#include <utility>
 
 //  ________________________________________________________________
 // |                                                                |
@@ -57,20 +57,45 @@ public:
     // ================================================================
 	//  ________________________________
 	// |                                |
-	// |     Insertion and Removal      |
+	// |           Accessors            |
 	// |________________________________|
 
-    // Core Insertion Operations
+    // Returns the head element's data
+    const T& front() const override {
+        if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
+        return list.getHead()->data; 
+    }
+
+    // Returns the tail element's data
+    const T& back() const override {
+        if(list.getTail() == nullptr) throw std::runtime_error("List is empty.");
+        return list.getTail()->data; 
+    }
+
+    // Returns the size of the list
+    std::size_t getSize() const noexcept override { return list.getCount(); }
+
+    // ================================================================
+	//  ________________________________
+	// |                                |
+	// |            Mutators            |
+	// |________________________________|
+
+    // Inserts an element in the front
     void pushFront(const T& item) override { list.addHead(item); }
+
+    // Inserts an element in the back
     void pushBack(const T& item) override { list.addTail(item); }
 
-    // Core Removal Operations
+    // Deletes the element in the front
     T popFront() override {
         if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
         T headNode = list.getHead()->data;
         list.removeHead();
         return headNode;
     }
+
+    // Deletes the element in the back
     T popBack() override { 
         if(list.getTail() == nullptr) throw std::runtime_error("List is empty.");
         T tailNode = list.getTail()->data;
@@ -81,34 +106,15 @@ public:
     // ================================================================
 	//  ________________________________
 	// |                                |
-	// |           Accessors            |
-	// |________________________________|
-
-    // Element Accessors
-    const T& front() const override {
-        if(list.getHead() == nullptr) throw std::runtime_error("List is empty.");
-        return list.getHead()->data; 
-    }
-
-    const T& back() const override {
-        if(list.getTail() == nullptr) throw std::runtime_error("List is empty.");
-        return list.getTail()->data; 
-    }
-
-    // Getter
-    std::size_t getSize() const noexcept override { return list.getCount(); }
-
-    // ================================================================
-	//  ________________________________
-	// |                                |
 	// |            Printers            |
 	// |________________________________|
 
-    // Print Forward
+    // Prints elements from front to back
     void PrintForward() { list.printForward(); }
 
-    // Print Reverse
+    // Prints elements from back to front
     void PrintReverse() { list.printReverse(); }
+    
 };
 
 
